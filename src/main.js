@@ -5,6 +5,7 @@ import { createSiteFormListTemplate } from './view/site-form-list-view.js';
 import { createSiteAddFormTemplate } from './view/site-add-form-view.js';
 import { createSiteFormEditTemplate } from './view/site-form-edit.js';
 import { createSiteRouteTemplate } from './view/site-route-view.js';
+import { createRoutePlaceTemplate } from './view/site-route-place.js';
 import {renderTemplate, RenderPosition} from './render.js';
 
 const siteMainElement = document.querySelector('.trip-main');
@@ -22,3 +23,4 @@ renderTemplate(siteTripEventsSort, createSiteFormListTemplate(), RenderPosition.
 const siteTripFormElement = document.querySelector('.trip-events__list');
 renderTemplate(siteTripFormElement, createSiteAddFormTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteTripFormElement, createSiteFormEditTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(siteTripFormElement, createRoutePlaceTemplate(), RenderPosition.BEFOREEND);
