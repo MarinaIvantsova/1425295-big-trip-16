@@ -7,6 +7,10 @@ import { createSiteFormEditTemplate } from './view/site-form-edit.js';
 import { createSiteRouteTemplate } from './view/site-route-view.js';
 import { createRoutePlaceTemplate } from './view/site-route-place.js';
 import {renderTemplate, RenderPosition} from './render.js';
+import { generateRoutePoint } from './mock/routePoint';
+const ROUTE_COUNT = 15;
+
+const routes = Array.from({length: ROUTE_COUNT}, generateRoutePoint);
 
 const siteMainElement = document.querySelector('.trip-main');
 const siteHeaderElement = siteMainElement.querySelector('.trip-main__trip-controls');
@@ -20,7 +24,11 @@ renderTemplate(siteHeaderElement, createSiteFiltersTemplate(), RenderPosition.BE
 renderTemplate(siteTripEventsSort, createSiteSortTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteTripEventsSort, createSiteFormListTemplate(), RenderPosition.BEFOREEND);
 
-const siteTripFormElement = document.querySelector('.trip-events__list');
-renderTemplate(siteTripFormElement, createSiteAddFormTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteTripFormElement, createSiteFormEditTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteTripFormElement, createRoutePlaceTemplate(), RenderPosition.BEFOREEND);
+const siteTripEventsList = document.querySelector('.trip-events__list');
+renderTemplate(siteTripEventsList, createSiteAddFormTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(siteTripEventsList, createSiteFormEditTemplate(routes)[0], RenderPosition.BEFOREEND);
+
+
+for (let i = 0; i < ROUTE_COUNT; i++) {
+  renderTemplate(siteTripEventsList, createRoutePlaceTemplate(routes[i]), RenderPosition.BEFOREEND);
+}

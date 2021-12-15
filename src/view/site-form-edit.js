@@ -1,6 +1,8 @@
-export const createSiteFormEditTemplate = () => (
-  `
- <li class="trip-events__item">
+
+
+export const createSiteFormEditTemplate = (route) => {
+  const { price } = route;
+  return `<li class="trip-events__item">
  <form class="event event--edit" action="#" method="post">
    <header class="event__header">
      <div class="event__type-wrapper">
@@ -87,7 +89,7 @@ export const createSiteFormEditTemplate = () => (
          <span class="visually-hidden">Price</span>
          &euro;
        </label>
-       <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="160">
+       <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}}">
      </div>
 
      <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -155,5 +157,5 @@ export const createSiteFormEditTemplate = () => (
    </section>
  </form>
 </li>
-`
-);
+  `;
+};
