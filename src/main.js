@@ -17,7 +17,7 @@ const siteHeaderElement = siteMainElement.querySelector('.trip-main__trip-contro
 const siteTripEvents = document.querySelector('.page-body__page-main');
 const siteTripEventsSort = siteTripEvents.querySelector('.trip-events');
 
-renderTemplate(siteMainElement, createSiteRouteTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(siteMainElement, createSiteRouteTemplate(routes[0]), RenderPosition.BEFOREEND);
 
 renderTemplate(siteHeaderElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteHeaderElement, createSiteFiltersTemplate(), RenderPosition.BEFOREEND);
@@ -26,8 +26,7 @@ renderTemplate(siteTripEventsSort, createSiteFormListTemplate(), RenderPosition.
 
 const siteTripEventsList = document.querySelector('.trip-events__list');
 renderTemplate(siteTripEventsList, createSiteAddFormTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteTripEventsList, createSiteFormEditTemplate(routes)[0], RenderPosition.BEFOREEND);
-
+renderTemplate(siteTripEventsList, createSiteFormEditTemplate(routes[0]), RenderPosition.BEFOREEND);
 
 for (let i = 0; i < ROUTE_COUNT; i++) {
   renderTemplate(siteTripEventsList, createRoutePlaceTemplate(routes[i]), RenderPosition.BEFOREEND);

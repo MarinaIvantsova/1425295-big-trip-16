@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 export const createRoutePlaceTemplate = (route) => {
-  const { price, kindOfRoutePoint, dateTrip, offers, photo, dateFrom, dateTo, duration} = route;
+  const { price, kindOfRoutePoint, dateTrip, offers, photo, dateFrom, dateTo, duration, destination} = route;
   const date = dateTrip !== null
     ? dayjs(dateTrip).format('D MMM')
     : '';
@@ -14,7 +14,7 @@ export const createRoutePlaceTemplate = (route) => {
                   <img class="event__type-icon" width="42" height="42" src="${Object.values(photo)}" alt="Event type icon">
 
                 </div>
-                <h3 class="event__title">${kindOfRoutePoint} Amsterdam</h3>
+                <h3 class="event__title">${kindOfRoutePoint} ${destination}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
                     <time class="event__start-time" datetime="2019-03-18T10:30">${startTime}</time>

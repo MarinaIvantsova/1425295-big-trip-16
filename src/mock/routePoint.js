@@ -46,10 +46,10 @@ export const generateRoutePoint = () => ({
   offers: generateOffers(),
   destinationDescription: generateDescription(),
   photo: generatePhoto(),
-  price: '600',
+  price: '660',
   dateTrip: '2019-03-18T22:55:56',
   dateFrom: '2019-03-18T10:30:56',
-  dateTo: '2019-07-11T11:00:13',
+  dateTo: '2019-03-20T11:00:13',
   duration: '30M',
   isFavorite: Boolean(getRandomInteger(0, 1))
 });
