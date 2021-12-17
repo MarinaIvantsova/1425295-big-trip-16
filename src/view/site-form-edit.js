@@ -4,7 +4,21 @@ export const createSiteFormEditTemplate = (route) => {
   const { price, kindOfRoutePoint, dateFrom, dateTo, offers, destinationDescription, destination } = route;
   const startTime = dayjs(dateFrom).format('DD/MM/YY HH:mm');
   const endTime = dayjs(dateTo).format('DD/MM/YY HH:mm');
-  return `<li class="trip-events__item">
+
+  let offersString = '';
+  offers.forEach((offer,index) => {
+    offersString += ` <div class="event__offer-selector">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-${index}" type="checkbox" name="event-offer-comfort" checked>
+    <label class="event__offer-label" for="event-offer-comfort-${index}">
+      <span class="event__offer-title">${offer.title}</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">${offer.price}</span>
+    </label>
+  </div> `;
+  });
+
+  return `
+  <li class="trip-events__item">
  <form class="event event--edit" action="#" method="post">
    <header class="event__header">
      <div class="event__type-wrapper">
@@ -104,52 +118,7 @@ export const createSiteFormEditTemplate = (route) => {
      <section class="event__section  event__section--offers">
        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
-       <div class="event__available-offers">
-         <div class="event__offer-selector">
-           <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
-           <label class="event__offer-label" for="event-offer-luggage-1">
-             <span class="event__offer-title">${Object.values(offers)[0]}</span>
-             &plus;&euro;&nbsp;
-             <span class="event__offer-price">${Object.values(offers)[1]}</span>
-           </label>
-         </div>
-
-         <div class="event__offer-selector">
-           <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
-           <label class="event__offer-label" for="event-offer-comfort-1">
-             <span class="event__offer-title">${Object.values(offers)[0]}</span>
-             &plus;&euro;&nbsp;
-             <span class="event__offer-price">${Object.values(offers)[1]}</span>
-           </label>
-         </div>
-
-         <div class="event__offer-selector">
-           <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
-           <label class="event__offer-label" for="event-offer-meal-1">
-             <span class="event__offer-title">${Object.values(offers)[0]}</span>
-             &plus;&euro;&nbsp;
-             <span class="event__offer-price">${Object.values(offers)[1]}</span>
-           </label>
-         </div>
-
-         <div class="event__offer-selector">
-           <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-           <label class="event__offer-label" for="event-offer-seats-1">
-             <span class="event__offer-title">${Object.values(offers)[0]}</span>
-             &plus;&euro;&nbsp;
-             <span class="event__offer-price">${Object.values(offers)[1]}</span>
-           </label>
-         </div>
-
-         <div class="event__offer-selector">
-           <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-           <label class="event__offer-label" for="event-offer-train-1">
-             <span class="event__offer-title">${Object.values(offers)[0]}</span>
-             &plus;&euro;&nbsp;
-             <span class="event__offer-price">${Object.values(offers)[1]}</span>
-           </label>
-         </div>
-       </div>
+       ${offersString}
      </section>
 
      <section class="event__section  event__section--destination">

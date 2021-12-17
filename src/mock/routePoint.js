@@ -18,10 +18,28 @@ const generateDescription = () => {
 
   return descriptions[randomIndex];
 };
-const generateOffers = () => ({
-  title: 'Order Uber',
-  price: '20',
-});
+const generateOffers = () => [
+  {
+    title: 'Order Uber',
+    price: '20',
+  },
+  {
+    title: 'Upgrade to a business class',
+    price: '20',
+  },
+  {
+    title: 'Order Yandex',
+    price: '2000',
+  },
+  {
+    title: 'Order Econom',
+    price: '3600',
+  },
+  {
+    title: 'Turn on music',
+    price: '36000',
+  }
+];
 const generatePhoto = () => ({
   src: 'http://picsum.photos/248/152?r=(getRandomInteger())',
 });
@@ -40,7 +58,7 @@ const generateDestination = () => {
 };
 
 export const generateRoutePoint = () => ({
-  id: '0',
+  id: getRandomInteger(),
   kindOfRoutePoint: 'Bus',
   destination: generateDestination(),
   offers: generateOffers(),

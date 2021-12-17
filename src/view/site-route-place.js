@@ -1,12 +1,23 @@
 import dayjs from 'dayjs';
 
 export const createRoutePlaceTemplate = (route) => {
-  const { price, kindOfRoutePoint, dateTrip, offers, photo, dateFrom, dateTo, duration, destination} = route;
+  const { price, kindOfRoutePoint, dateTrip, offers, photo, dateFrom, dateTo, duration, destination } = route;
   const date = dateTrip !== null
     ? dayjs(dateTrip).format('D MMM')
     : '';
   const startTime = dayjs(dateFrom).format('HH:mm');
   const endTime = dayjs(dateTo).format('HH:mm');
+
+  let offersString = '';
+  offers.forEach((offer) => {
+    offersString += `<li class="event__offer">
+      <span class="event__offer-title">${offer.title}</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">${offer.price}</span>
+    </li>
+  `;
+  });
+
   return `<li class="trip-events__item">
               <div class="event">
                 <time class="event__date" datetime="2019-03-18">${date}</time>
@@ -29,11 +40,12 @@ export const createRoutePlaceTemplate = (route) => {
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
                   <li class="event__offer">
-                    <span class="event__offer-title">${Object.values(offers)[0]}</span>
-                    &plus;&euro;&nbsp;
-                    <span class="event__offer-price">${Object.values(offers)[1]}</span>
+                    <span class="event__offer-title"></span>
+                    <span class="event__offer-price"></span>
                   </li>
+                  ${offersString}
                 </ul>
+
                 <button class="event__favorite-btn event__favorite-btn--active" type="button">
                   <span class="visually-hidden">Add to favorite</span>
                   <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
