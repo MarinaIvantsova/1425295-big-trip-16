@@ -26,20 +26,9 @@ const generateOffers = () => [
   {
     title: 'Upgrade to a business class',
     price: '20',
-  },
-  {
-    title: 'Order Yandex',
-    price: '2000',
-  },
-  {
-    title: 'Order Econom',
-    price: '3600',
-  },
-  {
-    title: 'Turn on music',
-    price: '36000',
   }
 ];
+
 const generatePhoto = () => ({
   src: 'http://picsum.photos/248/152?r=(getRandomInteger())',
 });
@@ -61,7 +50,7 @@ export const generateRoutePoint = () => ({
   id: getRandomInteger(),
   kindOfRoutePoint: 'Bus',
   destination: generateDestination(),
-  offers: generateOffers(),
+  selectedOffers: generateOffers(),
   destinationDescription: generateDescription(),
   photo: generatePhoto(),
   price: '660',
@@ -72,3 +61,25 @@ export const generateRoutePoint = () => ({
   isFavorite: Boolean(getRandomInteger(0, 1))
 });
 
+export const generateAllOffers = () => [
+  {
+    title: 'Order Uber',
+    price: '20',
+  },
+  {
+    title: 'Upgrade to a business class',
+    price: '20',
+  },
+  {
+    title: 'Order Yandex',
+    price: '220',
+  },
+  {
+    title: 'Turn on music',
+    price: '320',
+  },
+  {
+    title: 'Turn on film',
+    price: '320',
+  },
+];

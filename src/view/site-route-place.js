@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 export const createRoutePlaceTemplate = (route) => {
-  const { price, kindOfRoutePoint, dateTrip, offers, photo, dateFrom, dateTo, duration, destination } = route;
+  const { price, kindOfRoutePoint, dateTrip, selectedOffers, photo, dateFrom, dateTo, duration, destination } = route;
   const date = dateTrip !== null
     ? dayjs(dateTrip).format('D MMM')
     : '';
@@ -9,7 +9,7 @@ export const createRoutePlaceTemplate = (route) => {
   const endTime = dayjs(dateTo).format('HH:mm');
 
   let offersString = '';
-  offers.forEach((offer) => {
+  selectedOffers.forEach((offer) => {
     offersString += `<li class="event__offer">
       <span class="event__offer-title">${offer.title}</span>
       &plus;&euro;&nbsp;
