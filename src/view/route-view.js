@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
-export const createSiteRouteTemplate = (route) => {
+import { createElement } from '../render.js';
+
+const createRouteTemplate = (route) => {
   const { destination, dateTo, dateFrom, price } = route;
   const startTime = dayjs(dateFrom).format('MMM DD');
   const endTime = dayjs(dateTo).format('DD');
@@ -16,3 +18,27 @@ export const createSiteRouteTemplate = (route) => {
           </section>
           `;
 };
+export default class RouteView {
+  #element = null;
+  #routes = null;
+
+  constructor(routes) {
+    this.#routes = routes;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createRouteTemplate(this.#routes);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
