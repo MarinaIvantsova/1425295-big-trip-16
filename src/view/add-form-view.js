@@ -1,6 +1,7 @@
 
 import dayjs from 'dayjs';
-export const createSiteFormEditTemplate = (route, offers) => {
+import {createElement} from '../render.js';
+const createAddFormTemplate = (route, offers) => {
   const { price, kindOfRoutePoint, dateFrom, dateTo, destinationDescription, destination, selectedOffers } = route;
   const startTime = dayjs(dateFrom).format('DD/MM/YY HH:mm');
   const endTime = dayjs(dateTo).format('DD/MM/YY HH:mm');
@@ -131,3 +132,23 @@ export const createSiteFormEditTemplate = (route, offers) => {
     </li>
     `;
 };
+
+export default class AddFormView {
+  #element = null;
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createAddFormTemplate({},[]);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

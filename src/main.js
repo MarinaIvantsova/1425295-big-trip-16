@@ -1,34 +1,63 @@
-import { createSiteMenuTemplate } from './view/site-menu-view';
-import { createSiteFiltersTemplate } from './view/site-filters-view';
-import { createSiteSortTemplate } from './view/site-sort-view.js';
-import { createSiteFormListTemplate } from './view/site-form-list-view.js';
-import { createSiteAddFormTemplate } from './view/site-add-form-view.js';
-import { createSiteFormEditTemplate } from './view/site-form-edit.js';
-import { createSiteRouteTemplate } from './view/site-route-view.js';
-import { createRoutePlaceTemplate } from './view/site-route-place.js';
-import {renderTemplate, RenderPosition} from './render.js';
+import SiteMenuView from './view/menu-view.js';
+import BoardView from './view/board-view.js';
+import SortView from './view/sort-view.js';
+import PointListView from './view/point-list-view';
+import PointView from './view/point-view.js';
+import FiltersView from './view/filters-view.js';
+import RouteView from './view/route-view.js';
+import EditFormView from './view/edit-form-view';
+import { render, RenderPosition } from './render.js';
 import { generateRoutePoint } from './mock/routePoint';
-import { generateAllOffers } from './mock/routePoint';
+//import { generateAllOffers } from './mock/routePoint';
 const ROUTE_COUNT = 15;
 
-const routes = Array.from({length: ROUTE_COUNT}, generateRoutePoint);
-const offers = generateAllOffers();
-const siteMainElement = document.querySelector('.trip-main');
-const siteHeaderElement = siteMainElement.querySelector('.trip-main__trip-controls');
-const siteTripEvents = document.querySelector('.page-body__page-main');
-const siteTripEventsSort = siteTripEvents.querySelector('.trip-events');
+const points = Array.from({ length: ROUTE_COUNT }, generateRoutePoint);
+const route = generateRoutePoint();
 
-renderTemplate(siteMainElement, createSiteRouteTemplate(routes[0]), RenderPosition.BEFOREEND);
 
-renderTemplate(siteHeaderElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteHeaderElement, createSiteFiltersTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteTripEventsSort, createSiteSortTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteTripEventsSort, createSiteFormListTemplate(), RenderPosition.BEFOREEND);
+//const offers = generateAllOffers();
+const siteMainHeaderElement = document.querySelector('.trip-main');
+const siteHeaderElement = siteMainHeaderElement.querySelector('.trip-main__trip-controls');
+const siteMainElement = document.querySelector('.page-body__page-main');
+const siteMainContainer = siteMainElement.querySelector('.page-body__container');
 
-const siteTripEventsList = document.querySelector('.trip-events__list');
-renderTemplate(siteTripEventsList, createSiteAddFormTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteTripEventsList, createSiteFormEditTemplate(routes[0], offers), RenderPosition.BEFOREEND);
 
+render(siteMainHeaderElement, new RouteView(route).element, RenderPosition.AFTERBEGIN);
+render(siteHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
+render(siteHeaderElement, new FiltersView().element, RenderPosition.BEFOREEND);
+const boardComponent = new BoardView();
+
+render(siteMainContainer, boardComponent.element, RenderPosition.BEFOREEND);
+
+render(boardComponent.element, new SortView().element, RenderPosition.AFTERBEGIN);
+const pointListComponent = new PointListView();
+render(boardComponent.element, pointListComponent.element, RenderPosition.BEFOREEND);
+
+const renderPoint = (pointListElement, point) => {
+  const pointComponent = new PointView(point);
+  const pointEditComponent = new EditFormView();
+
+  const replacePointToForm = () => {
+    pointListElement.replaceChild(pointEditComponent.element, pointComponent.element);
+  };
+
+  const replaceFormToPoint = () => {
+    pointListElement.replaceChild(pointComponent.element, pointEditComponent.element);
+  };
+
+  pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    replacePointToForm();
+  });
+
+  pointEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    replaceFormToPoint();
+  });
+
+  render(pointListElement, pointComponent.element, RenderPosition.BEFOREEND);
+};
 for (let i = 0; i < ROUTE_COUNT; i++) {
-  renderTemplate(siteTripEventsList, createRoutePlaceTemplate(routes[i]), RenderPosition.BEFOREEND);
+  renderPoint(pointListComponent.element, points[i]);
 }
+
+

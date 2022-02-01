@@ -1,6 +1,7 @@
+import { createElement } from '../render.js';
 import dayjs from 'dayjs';
 
-export const createRoutePlaceTemplate = (route) => {
+const createPointTemplate = (route) => {
   const { price, kindOfRoutePoint, dateTrip, selectedOffers, photo, dateFrom, dateTo, duration, destination } = route;
   const date = dateTrip !== null
     ? dayjs(dateTrip).format('D MMM')
@@ -59,3 +60,28 @@ export const createRoutePlaceTemplate = (route) => {
             </li>
   `;
 };
+
+export default class PointView {
+  #element = null;
+  #routes = null;
+
+  constructor(routes) {
+    this.#routes = routes;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPointTemplate(this.#routes);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

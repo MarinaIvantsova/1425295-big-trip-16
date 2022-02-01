@@ -1,4 +1,6 @@
-export const createSiteAddFormTemplate = () => (
+import {createElement} from '../render.js';
+
+const createEditFormTemplate = () => (
   `
   <li class="trip-events__item">
 <form class="event event--edit" action="#" method="post">
@@ -164,3 +166,24 @@ export const createSiteAddFormTemplate = () => (
               </li>
 `
 );
+
+
+export default class EditFormView {
+  #element = null;
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createEditFormTemplate({},[]);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
