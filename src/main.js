@@ -12,7 +12,7 @@ import { generateRoutePoint } from './mock/routePoint';
 const ROUTE_COUNT = 15;
 
 const points = Array.from({ length: ROUTE_COUNT }, generateRoutePoint);
-const route = generateRoutePoint(points);
+const route = generateRoutePoint();
 
 
 //const offers = generateAllOffers();
@@ -33,38 +33,31 @@ render(boardComponent.element, new SortView().element, RenderPosition.AFTERBEGIN
 const pointListComponent = new PointListView();
 render(boardComponent.element, pointListComponent.element, RenderPosition.BEFOREEND);
 
-const editFormView = new EditFormView();
-render(pointListComponent.element, editFormView.element, RenderPosition.BEFOREEND);
-editFormView.element.querySelector('form').addEventListener('submit', () => { });
-
 const renderPoint = (pointListElement, point) => {
   const pointComponent = new PointView(point);
-  const pointEditComponent = new EditFormView(point);
+  const pointEditComponent = new EditFormView();
 
-  const replaceCardToForm = () => {
+  const replacePointToForm = () => {
     pointListElement.replaceChild(pointEditComponent.element, pointComponent.element);
   };
 
-  const replaceFormToCard = () => {
+  const replaceFormToPoint = () => {
     pointListElement.replaceChild(pointComponent.element, pointEditComponent.element);
   };
 
   pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-    replaceCardToForm();
+    replacePointToForm();
   });
 
   pointEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
     evt.preventDefault();
-    replaceFormToCard();
+    replaceFormToPoint();
   });
 
   render(pointListElement, pointComponent.element, RenderPosition.BEFOREEND);
 };
 for (let i = 0; i < ROUTE_COUNT; i++) {
-  const pointView = new PointView(route);
   renderPoint(pointListComponent.element, points[i]);
-  const buttonPoint = pointView.element.querySelector('.event__rollup-btn');
-  buttonPoint.addEventListener('click', () => { });
 }
 
 
