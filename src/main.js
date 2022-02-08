@@ -1,5 +1,6 @@
 import SiteMenuView from './view/menu-view.js';
 import BoardView from './view/board-view.js';
+import  NoPointView from './view/no-points-view.js';
 import SortView from './view/sort-view.js';
 import PointListView from './view/point-list-view';
 import PointView from './view/point-view.js';
@@ -29,35 +30,46 @@ const boardComponent = new BoardView();
 
 render(siteMainContainer, boardComponent.element, RenderPosition.BEFOREEND);
 
-render(boardComponent.element, new SortView().element, RenderPosition.AFTERBEGIN);
-const pointListComponent = new PointListView();
-render(boardComponent.element, pointListComponent.element, RenderPosition.BEFOREEND);
+if (points.every((point) => point.isArchive)) {
+  render(boardComponent.element, new NoPointView().element, RenderPosition.BEFOREEND);
+} else {
+  render(boardComponent.element, new SortView().element, RenderPosition.BEFOREEND);
+  const pointListComponent = new PointListView();
+  render(boardComponent.element, pointListComponent.element, RenderPosition.BEFOREEND);
 
-const renderPoint = (pointListElement, point) => {
-  const pointComponent = new PointView(point);
-  const pointEditComponent = new EditFormView();
+  const renderPoint = (pointListElement, point) => {
+    const pointComponent = new PointView(point);
+    const pointEditComponent = new EditFormView();
 
-  const replacePointToForm = () => {
-    pointListElement.replaceChild(pointEditComponent.element, pointComponent.element);
+    const replacePointToForm = () => {
+      pointListElement.replaceChild(pointEditComponent.element, pointComponent.element);
+    };
+
+    const replaceFormToPoint = () => {
+      pointListElement.replaceChild(pointComponent.element, pointEditComponent.element);
+    };
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        replaceFormToPoint();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+    pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replacePointToForm();
+      document.addEventListener('keydown', onEscKeyDown);
+    });
+
+    pointEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      replaceFormToPoint();
+      document.removeEventListener('keydown', onEscKeyDown);
+    });
+
+    render(pointListElement, pointComponent.element, RenderPosition.BEFOREEND);
   };
-
-  const replaceFormToPoint = () => {
-    pointListElement.replaceChild(pointComponent.element, pointEditComponent.element);
-  };
-
-  pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-    replacePointToForm();
-  });
-
-  pointEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    replaceFormToPoint();
-  });
-
-  render(pointListElement, pointComponent.element, RenderPosition.BEFOREEND);
-};
-for (let i = 0; i < ROUTE_COUNT; i++) {
-  renderPoint(pointListComponent.element, points[i]);
+  for (let i = 0; i < ROUTE_COUNT; i++) {
+    renderPoint(pointListComponent.element, points[i]);
+  }
 }
-
-
